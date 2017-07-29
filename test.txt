@@ -11,3 +11,19 @@ branchowanie
 git branch //wyswietla branche
 git branch branch_name // dodawanie nowego brancha
 git checkout branch_name // przechodzenie do danego brancha
+
+dodajemy tak jak poprzednio, add, commit a przy pushu:
+git push -u origin branch_name
+
+mergowanie branchy
+git checkout master
+git pull origin master
+git branch --merged    //pokazuje po³¹czone branche 
+git merge branch_name //nazwa tej któr¹ chcemy pod³¹czyæ
+git push origin master
+
+usuwanie brancha
+git branch --merged
+git branch -d branch_name
+git branch -a
+git push origin --delete branch_name
