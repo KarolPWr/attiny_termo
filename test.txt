@@ -1,4 +1,8 @@
-first real commit
-first real commit
-first real commit
-first real commit
+git komendy
+updatowanie plikow schemat:
+git diff      // pokazuje roznice pomiedzy plikami
+git status
+git commit -m "Message"    // lokalny update
+teraz pushujemy
+git pull origin master  // wa¿ne jak pracuje siê w grupie
+git push origin master  // master to branch do której pushujemy
