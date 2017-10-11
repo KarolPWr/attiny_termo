@@ -79,7 +79,7 @@ byte dataArray[10]= {~0b00111111, 0b11111001, ~0b01011011, ~0b01001111,~0b011001
       for(int i=0; i<1000; i++)
       {
       temp_display(raw,sum);  // jestem idiotą, funkcja wyswietlajaca jest dostosowana tylko do temperatury pełnej
-      delay(15);
+      delay(5);
       }
       sum=0;
       counter=0;
@@ -162,17 +162,12 @@ void temp_display(int temp, int decimal)
   digitalWrite(digit3, 0);
 
   digitalWrite(latchPin, 0);
-  shiftOut( dataPin, clockPin, dataArray[temp%10]);    //bylo temp%10
+  shiftOut( dataPin, clockPin, dataArray[decimal]);    //bylo temp%10
   digitalWrite(latchPin, 1);
 
   
 
-  digitalWrite(digit1, 0);
-  digitalWrite(digit2, 1);
-
-  digitalWrite(latchPin, 0);
-  shiftOut( dataPin, clockPin, dataArray[decimal]);   //bylo temp/10
-  digitalWrite(latchPin, 1);  
+  
 
   
 
@@ -181,9 +176,15 @@ void temp_display(int temp, int decimal)
   digitalWrite(digit3, 1);
   
   digitalWrite(latchPin, 0);
-  shiftOut( dataPin, clockPin, dataArray[temp/10]);
+  shiftOut( dataPin, clockPin, dataArray[temp%10]);
   digitalWrite(latchPin, 1);
 
+digitalWrite(digit3, 0);
+  digitalWrite(digit2, 1);
+
+  digitalWrite(latchPin, 0);
+  shiftOut( dataPin, clockPin, dataArray[temp/10]);   //bylo temp/10
+  digitalWrite(latchPin, 1);  
   
 
   digitalWrite(digit1, 0);
