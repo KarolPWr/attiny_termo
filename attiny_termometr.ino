@@ -16,8 +16,8 @@ const uint8_t dataPin = 5;   //PD3
 const uint8_t termo_pin = 0; // PD0
 
 int16_t raw;
-int t;
-int data_buf;
+//int t;
+//int data_buf;
 int sum;
 uint8_t counter;
 
@@ -54,12 +54,12 @@ byte dataArray[10]= {~0b00111111, 0b11111001, ~0b01011011, ~0b01001111,~0b011001
       for (int j = 0; j < 9; ++j) { // 9 bytes
       data[j] = TemperatureSensor.read();
       }
-      raw = (data[1] << 8) + data[0];   // plus czy |, oto jest pytanie 
+      raw = (data[1] << 8) | data[0];   // plus czy |, oto jest pytanie 
       raw = raw>>4;
 
       
-    int maska=0b00001000;
-    int wartosc=50;
+    uint8_t maska=0b00001000;
+    uint8_t wartosc=50;
     for(int i=0; i<4; i++)
     {
         if((data[0]&maska))
@@ -76,8 +76,11 @@ byte dataArray[10]= {~0b00111111, 0b11111001, ~0b01011011, ~0b01001111,~0b011001
       
 
 
-      for(int i=0; i<5000; i++)
+      for(int i=0; i<1000; i++)
+      {
       temp_display(raw,sum);  // jestem idiotą, funkcja wyswietlajaca jest dostosowana tylko do temperatury pełnej
+      delay(15);
+      }
       sum=0;
       counter=0;
       //digitalWrite(led, HIGH);
@@ -162,6 +165,7 @@ void temp_display(int temp, int decimal)
   shiftOut( dataPin, clockPin, dataArray[temp%10]);    //bylo temp%10
   digitalWrite(latchPin, 1);
 
+  
 
   digitalWrite(digit1, 0);
   digitalWrite(digit2, 1);
@@ -170,6 +174,7 @@ void temp_display(int temp, int decimal)
   shiftOut( dataPin, clockPin, dataArray[decimal]);   //bylo temp/10
   digitalWrite(latchPin, 1);  
 
+  
 
   digitalWrite(digit1, 0);
   digitalWrite(digit2, 0);
@@ -179,7 +184,7 @@ void temp_display(int temp, int decimal)
   shiftOut( dataPin, clockPin, dataArray[temp/10]);
   digitalWrite(latchPin, 1);
 
-  //delay(50);
+  
 
   digitalWrite(digit1, 0);
   digitalWrite(digit2, 0);
