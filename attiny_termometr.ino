@@ -47,11 +47,16 @@ byte dataArray[10]= {~0b00111111, 0b11111001, ~0b01011011, ~0b01001111,~0b011001
 
       TemperatureSensor.write(0x44); // start conversion
 
-      delay(1000); // wait for the conversion
+      //delay(850); // wait for the conversion
+      while(TemperatureSensor.read_bit()==0)
+      __asm__("nop\n\t""nop\n\t""nop\n\t""nop\n\t");   //after the Convert T command and
+                                                        //  the DS18B20 will respond by transmitting 0 while the temperature
+                                                        //  conversion is in progress and 1 when the conversion is done 
+      
       TemperatureSensor.reset();
       TemperatureSensor.skip();
       TemperatureSensor.write(0xBE); // Read Scratchpad
-      for (int j = 0; j < 9; ++j) { // 9 bytes
+      for (uint8_t j = 0; j < 9; ++j) { // 9 bytes
       data[j] = TemperatureSensor.read();
       }
       raw = (data[1] << 8) | data[0];   // plus czy |, oto jest pytanie 
@@ -79,7 +84,7 @@ byte dataArray[10]= {~0b00111111, 0b11111001, ~0b01011011, ~0b01001111,~0b011001
       for(int i=0; i<1000; i++)
       {
       temp_display(raw,sum);  // jestem idiotą, funkcja wyswietlajaca jest dostosowana tylko do temperatury pełnej
-      delay(5);
+      delay(10);
       }
       sum=0;
       counter=0;
